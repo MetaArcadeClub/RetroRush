@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script>
+    <script src="auth.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Rush</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="title-container">
+        <h1>Retro Rush</h1>
+    </div>
+    <div class="content-box">
+        <p class="intro-text">Power Up Your Play, Earn Tickets Today!</p>
+        <button onclick="window.location.href='/login'">Join the Rush</button>
+        <div id="consent-text" style="display: none;">
+            By logging in, you agree to our <a href="URL_TO_TERMS" target="_blank" rel="noopener noreferrer">Terms of Use</a> and
+            <a href="URL_TO_PRIVACY" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+        </div>
+        <div id="user-profile" style="display: none;">
+            <img id="profile-img" src="#" alt="Profile Image" style="width: 100px; height: 100px;">
+            <p id="profile-name"></p>
+            <p>Points: <span id="profile-points">N/A</span></p>
+            <p>Level: <span id="profile-rank">N/A</span></p>
+            <button id="referral-link-button" onclick="copyReferralLink()">Referral Link</button>
+            <div id="copy-confirmation" class="bubble" style="display: none;">Referral Link Copied!</div>
+            <button onclick="window.location.href='/logout'">Log Out</button>
+            <button id="start-game-button" onclick="startGame()">Start Game</button>
+            <button id="wallet-connect">
+                <img src="wallet.png" alt="Wallet Icon" id="wallet-icon"/>
+            </button>
+            <p class="airdrop-info">
+                Your progress is saved, and your share of the airdrop depends on your <span class="highlight">Tickets</span>. The more you have, the bigger your share of the airdrop.
+            </p>
+        </div>
+    </div>
+    <div class="taskContainer">
+        <!-- Tasks will be dynamically inserted here. Assuming task.js populates this. -->
+        <!-- Example Task Button -->
+        <button class="taskButton" onclick="verifyTask('taskId', 'taskType')">Verify Task</button>
+    </div>
+    <footer>
+        <div class="copyright">
+            Copyrights reserved by 
+            <a href="https://metaarcadeclub.com/" target="_blank" class="highlight">Meta Arcade Club</a>
+        </div>
+        <div id="sketch-holder"></div> <!-- Your sketch will go here -->
+    </footer>
+    <div id="game-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">�</span>
+            <canvas id="gameCanvas"></canvas>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="connectWallet.js"></script>
+    <script src="backgroundsketch.js"></script>
+    <script src="tasks.js"></script>
+    <script src="game.js"></script>
+    <script>
+      function fetchProfileAndUpdateUI() {
+    fetch('/profile', {
+        method: 'GET',
+        credentials: 'include'  // Ensures cookies are sent along with the request
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("data",data);
+        if (data.isAuthenticated) {
+            document.getElementById('user-profile').style.display = 'block';
+            document.getElementById('profile-img').src = data.user.picture || 'default-profile.png';
+            document.getElementById('profile-name').textContent = data.user.name || 'Name not provided';
+            document.getElementById('profile-points').textContent = data.points || 'N/A';
+            document.getElementById('profile-rank').textContent = data.rank || 'N/A';
+
+            // Set the referral link as a data attribute on the button
+            const referralBtn = document.getElementById('referral-link-button');
+            referralBtn.dataset.referralLink = data.referralLink || 'Your referral link';
+
+            // Hide the elements that should only be visible before login
+            document.querySelector('.content-box button').style.display = 'none';
+            document.querySelector('.intro-text').style.display = 'none';
+
+            // Enable task buttons
+            document.querySelectorAll('.taskButton').forEach(button => {
+                button.disabled = false; // Enable buttons
+                button.classList.remove('button-disabled'); // Remove disabled styling if used
+            });
+        } else {
+            // Show the elements that should only be visible before login
+            document.querySelector('.content-box button').style.display = 'block';
+            document.querySelector('.intro-text').style.display = 'block';
+            document.getElementById('consent-text').style.display = 'block';
+
+            // Disable task buttons
+            document.querySelectorAll('.taskButton').forEach(button => {
+                button.disabled = true; // Disable buttons
+                button.classList.add('button-disabled'); // Add disabled styling if used
+            });
+        }
+    }).catch(error => {
+        console.error('Error fetching profile:', error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchProfileAndUpdateUI();
+});
+
+      function copyReferralLink() {
+        const referralBtn = document.getElementById('referral-link-button');
+        const referralLink = referralBtn.dataset.referralLink;
+
+        navigator.clipboard.writeText(referralLink).then(() => {
+            // Show the bubble
+            const confirmationBubble = document.getElementById('copy-confirmation');
+            confirmationBubble.style.display = 'block';
+
+            // Hide the bubble after 2 seconds
+            setTimeout(() => {
+                confirmationBubble.style.display = 'none';
+            }, 2000);
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+      }
+
+      let provider;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const icon = document.getElementById('wallet-icon');
+    if ('solana' in window) {
+        provider = window.solana;
+        if (provider.isPhantom) {
+            if (provider.isConnected) {
+                icon.classList.add('connected');
+                icon.addEventListener('click', disconnectWallet);
+            } else {
+                icon.addEventListener('click', connectWallet);
+            }
+        } else {
+            alert('Phantom wallet not found. Please install it.');
+        }
+    } else {
+        alert('Solana object not found. Please install the Phantom Wallet.');
+    }
+});
+
+
+
+function startGame() {
+    document.getElementById('game-modal').style.display = 'block';
+    console.log('Game started'); // Adding a console log to confirm the function runs
+}
+
+
+
+function connectWallet() {
+    if (!provider.isConnected) {
+        provider.connect()
+            .then(() => {
+                const icon = document.getElementById('wallet-icon');
+                icon.classList.add('connected');
+                alert('Wallet successfully connected!');
+                // Clean up: remove this listener, add the disconnect listener
+                icon.removeEventListener('click', connectWallet);
+                icon.addEventListener('click', disconnectWallet);
+            })
+            .catch((err) => {
+                if (err.message === "User rejected the request.") {
+                    alert('You rejected the wallet connection. Please click and allow it to use this feature.');
+                } else {
+                    alert('Failed to connect wallet. Please try again.');
+                }
+            });
+    }
+}
+
+function disconnectWallet() {
+    if (provider.isConnected) {
+        provider.disconnect().then(() => {
+            const icon = document.getElementById('wallet-icon');
+            icon.classList.remove('connected');
+            alert('Wallet disconnected.');
+            // Clean up: remove this listener, add the connect listener
+            icon.removeEventListener('click', disconnectWallet);
+            icon.addEventListener('click', connectWallet);
+        }).catch(err => {
+            console.error('Failed to disconnect wallet:', err);
+            alert('Failed to disconnect the wallet.');
+        });
+    }
+}
+
+      window.onload = fetchProfileAndUpdateUI;
+    </script>
+</body>
+</html>

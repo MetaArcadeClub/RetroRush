@@ -1,0 +1,635 @@
+/* Resets and basic styles */
+/* Resets and basic styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #000;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-container {
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+  margin-top: 2vh; /* Adjust top margin to ensure visibility */
+}
+
+h1 {
+  font-size: 4rem;
+  color: #c13bff;
+  font-family: 'Press Start 2P', cursive;
+  animation: fadeIn 2.5s ease-out forwards;
+}
+
+/* Neon glow effect for texts and elements */
+.neon {
+    text-shadow:
+        0 0 5px #c13bff,
+        0 0 10px #c13bff,
+        0 0 20px #c13bff,
+        0 0 40px #00d4ff,
+        0 0 80px #00d4ff,
+        0 0 90px #00d4ff,
+        0 0 100px #00d4ff,
+        0 0 150px #00d4ff;
+}
+
+/* Style adjustments for the centered content */
+.centered-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10; /* Keeps it above the canvas */
+    width: 60%; /* Adjust width as needed */
+    max-width: 600px; /* Ensures it doesn't get too wide on larger screens */
+    z-index: 10; /* Ensure it's above the p5.js canvas */
+}
+
+.content-box {
+    top: -3vh;
+    right: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 80vw; /* Adjust based on your preference for size */
+    height: 80vw; /* Keep equal to width for perfect circle */
+    max-width: 500px; /* Or any maximum size you prefer */
+    max-height: 800px; /* Keep equal to max-width for perfect circle */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20%;
+    position: relative;
+    overflow: hidden; /* To ensure the border animation is contained */
+    margin: auto; /* For horizontal centering if not perfectly centered */
+    z-index: 2;
+    text-align: center; /* Ensures text is centered */
+    box-sizing: border-box;
+    border: 3px solid transparent; /* Important for the border animation */
+    animation: fadeIn 2.5s ease-out forwards;
+}
+
+#user-profile {
+    display: flex;
+    flex-direction: column; /* Default flex direction */
+    justify-content: space-around; /* Adjust as needed */
+    align-items: center;
+    width: 100%; /* Adjust width as necessary */
+    /* other styles */
+}
+
+/* Animated neon border */
+.content-box::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    z-index: -1;
+    border: 3px solid;
+    border-radius: 50%;
+    border-image: linear-gradient(90deg, #c13bff, #00d4ff) 1 round;
+    animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.content-box button {
+    border-radius: 20px; /* Gives the button rounded edges */
+}
+
+p, button {
+    margin: 30px 30px; /* Adds space between elements */
+}
+
+p {
+    font-size: 1rem; /* Paragraph text size */
+    color: white; /* Neon blue color */
+    font-family: 'Press Start 2P', cursive; /* Roboto is clean and easy to read */
+}
+
+p.intro-text {
+    font-size: 1.2rem; /* Paragraph text size */
+    color: #00d4ff; /* Neon blue color */
+    font-family: 'Press Start 2P', cursive; /* Press Start 2P is more themed but adjust according to your choice */
+    margin-top: 10rem; /* Adjust the space above the paragraph */
+}
+
+button {
+    padding: 10px 20px;
+    border: 2px solid #c13bff; /* Neon purple border */
+    background-color: transparent;
+    color: #c13bff; /* Neon purple text */
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: 'Press Start 2P', cursive; /* Consistency with the text */
+    margin-top: 7%;
+}
+
+button:hover {
+    background-color: #c13bff; /* Neon purple background on hover */
+    color: #000; /* Text color change on hover */
+}
+
+/* Task Container Styles */
+.taskContainer {
+  height: 60vh;
+  overflow-y: scroll;
+  position: absolute;
+  top: 52%;
+  transform: translateY(-50%);
+  right: 14%;
+  width: 27vw;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 2;
+  scrollbar-width: thin; /* 'auto' or 'thin' */
+  scrollbar-color: #00d4ff #000; /* thumb and track color */
+}
+
+/* Task Box Styles */
+.taskBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 1rem;
+  border-radius: 15px;
+  box-shadow: 0 0 8px #a020f0, 0 0 16px #a020f0;
+  width: 350px;
+  animation: fadeIn 2.5s ease-out forwards;
+  position: relative;
+  height: 7vh; /* adjust this value as needed to increase height */
+  padding: 20px;
+  font-family: 'Press Start 2P', cursive; /* Setting the arcade-style font */
+  padding-bottom: 30px; /* Add padding to the bottom inside the box */
+}
+
+.taskBox:hover {
+  box-shadow: 0 0 8px #00d4ff, 0 0 16px #00d4ff; /* Change box shadow to light blue on hover */
+}
+
+.ticket-icon {
+  width: 25px; /* Or whatever size fits best */
+  height: auto; /* Maintain aspect ratio */
+  vertical-align: middle; /* Aligns the icon with the middle of the text */
+  margin-right: 20px; /* Add some space between the title and the icon */
+  margin-bottom: 8px;
+}
+
+.taskBox h2 {
+  margin-top: -20px; /* Move the title up by reducing the top margin */
+  margin-bottom: 20px; /* Add more space below the title before the underline */
+  position: relative; /* Position relative to allow absolute positioning inside */
+  padding-bottom: 15px; /* Provide space for the underline */
+  font-weight: bold;
+  margin: 0 auto; /* Center the title */
+  width: 100%;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive; /* Set the arcade font for the task title */
+  font-size: 1.2rem;
+}
+
+.taskBox h2::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%; /* this will almost match the box width */
+  height: 2px;
+  background: #00d4ff; /* Change underline color to light blue */
+  margin-top: 3.2vh; /* space below the underline */
+}
+
+.taskBox:hover h2::after {
+  background: #a020f0; /* Change underline color to purple on hover */
+}
+
+.taskContent {
+  display: flex;
+  justify-content: space-between; /* This will position elements on both ends */
+  align-items: center;
+  width: 100%; /* Take the full width of the task box */
+  padding: 0; /* Remove padding if not needed */
+  margin-bottom: 20px; /* Space below the title and underline */
+}
+
+.taskBox p {
+  margin: 0;
+  text-align: left; /* center align text if you prefer */
+  order: 1; /* ensure that text appears below the title */
+  font-size: 0.7rem;
+  color: #fff; /* Sets the text color to white */
+  font-family: 'Press Start 2P', cursive; /* Setting the arcade-style font */
+  margin-bottom: 65px; /* Move the text up by reducing the top margin */
+}
+
+.taskButton {
+  padding: 10px 15px;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  background-color: #6c63ff;
+  color: white;
+  order: 2; /* ensure that button appears below the text */
+  margin-top: 0; /* space above the button */
+  margin-left: 0; /* Remove margin-left if it was previously set */
+  margin-right: 0; /* Align the button to the right */
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 65px; /* Move the text up by reducing the top margin */
+}
+
+.taskButton:hover {
+  transform: scale(1.05);
+  color: white;
+}
+
+/* Animation for fadeIn effect */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.button-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.bubble {
+  position: absolute;
+  padding: 10px;
+  background: #333;
+  color: #00d4ff;
+  border-radius: 4px;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 1000; /* Make sure this is above everything else */
+  display: none; /* Hide by default */
+  opacity: 70%;
+  transition: opacity 2s;
+}
+
+/* Optionally, add transition for a fade effect */
+.bubble.show {
+  display: block;
+  opacity: 30%;
+  transition: opacity 2s;
+}
+
+/* Make the bubble gradually appear */
+.bubble.show.fade-in {
+  opacity: 1;
+}
+
+#profile-img {
+    width: 100px; /* Set a specific width */
+    height: 100px; /* Set the same value for height to maintain aspect ratio */
+    border-radius: 50%; /* This makes the image round */
+    object-fit: cover; /* This will cover the area without stretching the image */
+    border: 1px solid #00d4ff; /* Neon blue border */
+    box-shadow: 0 0 2px #00d4ff, 0 0 4px #00d4ff, 0 0 8px #00d4ff; /* Neon glow effect */
+    margin-bottom: 20px; /* Adds space below the image */
+    margin-top: 35%;
+}
+
+#profile-name,
+#profile-points,
+#profile-rank {
+    color: white; /* Sets the text color to white */
+}
+
+#consent-text {
+    color: white; /* Set the text color to white */
+    text-align: center; /* Center the text */
+    font-size: 0.5rem; /* Adjust the font size as necessary */
+    margin: 20px 20px; /* Adds some vertical spacing */
+    font-family: 'Press Start 2P', cursive; /* Setting the arcade-style font */
+}
+
+#consent-text a {
+    color: #00d4ff; /* Neon blue for the link text */
+    text-decoration: none; /* Removes the underline from links */
+}
+
+#consent-text a:hover {
+    text-decoration: underline; /* Adds an underline on hover for better user experience */
+}
+
+.airdrop-info {
+    color: white; /* Sets the text color to white */
+    text-align: center; /* Centers the text */
+    margin-bottom: 20%; /* Adds space above the text */
+    font-size: 0.6rem; /* Sets a suitable font size */
+    padding: 20px 30px; /* Adds some padding on the sides */
+}
+.highlight {
+    color: #00d4ff; /* Neon green color */
+}
+
+#wallet-connect {
+    background-color: transparent; /* Makes the background transparent */
+    border: none; /* Removes any border */
+    cursor: pointer; /* Changes the cursor to indicate it's clickable */
+    padding: 10px; /* Adds some padding around the icon for easier clicking */
+    display: inline-block; /* Ensures the button does not take full width */
+}
+
+#wallet-connect img {
+    width: 30px; /* Sets the icon size */
+    height: 30px; /* Maintains aspect ratio */
+}
+
+#wallet-icon {
+    transition: box-shadow 0.3s ease; /* Smooth transition for shadow effects */
+    box-shadow: none; /* Default no shadow when disconnected */
+}
+
+#wallet-icon.connected {
+    box-shadow: 0 0 10px #00d4ff; /* Green shadow indicates connected */
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 11; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    position: absolute; /* Position relative to the parent .modal */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position to exact center */
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    height: 62%;
+    width: 62%;  /* Adjust width as necessary */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+
+/* Ensure the canvas has dimensions */
+#gameCanvas {
+    width: 95%; /* or 100% if you want it to be responsive */
+    height: 95%; /* Adjust as needed */
+    display: block; /* This can help if there are any issues with inline display */
+    background: #000; /* So you can see it on the page */
+    margin: 0 auto; /* Center the canvas in the modal */
+    background-color: #000; /* Keep the black background if that's part of the game's design */
+}
+
+
+#start-game-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block; /* Ensure it is not accidentally hidden */
+    z-index: 9999;
+}
+
+
+#start-game-button:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Responsive design adjustments */
+/* XL Devices */
+@media (max-width: 1500px) {
+
+.title-container {
+  top: 5vh;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+}
+
+  .taskContainer {
+    width: 30vw; /* Example adjustment for XL devices */
+  }
+  
+  .taskBox {
+    width: 300px; /* Adjust width for XL devices */
+  }
+
+  .taskBox p {
+  }
+  
+  .content-box {
+    width: 35%;
+    right: 24%;
+  }
+}
+
+/* LG Devices */
+@media (max-width: 1199.98px) {
+  .title-container h1 {
+    font-size: 3.5rem;
+    padding-top: 3rem;
+  }
+  
+  .taskContainer {
+    top: 120vh;
+    right: 28%; /* Adjust to create space from the right side as needed */
+    width: 46vw; /* Keep or adjust the width as per your design requirements */
+    max-height: 70vh; /* Optional: max-height to ensure it doesn't get too tall, adjust as needed */
+  }
+  
+  .taskBox {
+    width: 30vw; /* Responsive adjustment for larger screens */
+  }
+  
+  .content-box {
+    width: 60%;
+    left: 0;
+    top: -8vh;
+  }
+}
+
+/* MD Devices */
+@media (max-width: 991.98px) {
+  .content-box {
+    width: 90vw;
+    height: 90vw;
+  }
+
+  .taskContainer {
+    top: 120vh;
+    left: 13vh;
+    width: 55%;
+    margin-bottom: 4rem;
+  }
+  
+  .taskBox {
+    width: 40vw; /* Adjustment for medium screens */
+  }
+  
+  .contentArea {
+    left: 35vh;
+    height: 50vh;
+    width: 70%;
+    top: 40vh;
+  }
+}
+
+/* XS Devices */
+@media (max-width: 767.98px) {
+  .title-container {
+    top: 5%;
+  }
+
+  .taskContainer {
+    top: 130vh;
+    height: 60vh;
+    width: 80%;
+    left: 10vw;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem; /* Adds additional space below the container */
+  }
+  
+  .taskBox {
+    width: 60vw; /* Full width on small devices */
+    height: 12vh;
+    margin-bottom: 40px; /* Less space between boxes */
+  }
+
+  .taskBox h2::after {
+      width: 100%;
+      top: 20%;
+  }  
+  .content-box {
+    height: 80vh;
+    width: 80%;
+    top: 5vh;
+  }
+  
+  .content-box, .intro-text, .content-box button {
+    font-size: 1rem;
+  }
+}
+
+#user-profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;  /* Centers the content vertically */
+        width: 100%;  /* Full width to accommodate smaller screens */
+    }
+
+    #referral-link-button, 
+    [onclick="window.location.href='/logout'"] {  /* Specifically targeting the buttons by ID and inline event for the logout */
+        width: 80%;  /* Slightly less than full width for aesthetic padding */
+        margin: 10px auto;  /* Adds space around the buttons and centers them horizontally */
+    }
+
+/* Ensures the p5.js sketch covers the entire viewport */
+canvas {
+    position: fixed; /* or 'absolute' if 'fixed' causes issues */
+    top: 0;
+    left: 0;
+    z-index: 1; /* Ensure this is below your content */
+    width: 100%;
+    height: 100%;
+}
+
+body::-webkit-scrollbar {
+  width: 6px; /* Adjust the width of the scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #000; /* Black track */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #00d4ff; /* Neon blue thumb for visibility */
+  border-radius: 10px; /* Rounded corners for the thumb */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #009fdb; /* Slightly different color on hover for effect */
+}
+
+/* Copyright text styling */
+.copyright {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background-color: rgba(0, 0, 0, 1); /* Semi-transparent black background */
+    color: white;
+    font-size: 0.6rem;
+    z-index: 1000; /* Ensure it is visible above other elements */
+    font-family: 'Press Start 2P', cursive; /* Setting the arcade-style font */
+}
+
+.highlight {
+    color: #00d4ff; /* Neon blue for highlighting */
+    text-decoration: none; /* No underline initially */
+}
+
+.highlight:hover {
+    text-decoration: underline; /* Underline on hover for better UX */
+}
