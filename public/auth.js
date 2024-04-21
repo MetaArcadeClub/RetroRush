@@ -1,7 +1,7 @@
 var auth0 = new auth0.WebAuth({
   domain: 'metaarcadeclub.uk.auth0.com',
   clientID: 'Y7GXtr7l6VeqfzTrhHdSEbm4ZnFzpE0v',
-  redirectUri: 'http://localhost:3000/callback',
+  redirectUri: '/callback',
   responseType: 'token id_token',
   scope: 'openid profile',
   leeway: 60,
