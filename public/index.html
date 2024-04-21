@@ -90,6 +90,11 @@
                 button.disabled = false; // Enable buttons
                 button.classList.remove('button-disabled'); // Remove disabled styling if used
             });
+
+            data.tasksCompleted.forEach(tc => {
+                document.querySelector(`#btn-${tc.taskId}`).style.display = 'none';
+                document.querySelector(`#task-completed-${tc.taskId}`).style.display = 'block';  
+            });
         } else {
             // Show the elements that should only be visible before login
             document.querySelector('.content-box button').style.display = 'block';

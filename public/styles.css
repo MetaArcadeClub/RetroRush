@@ -277,6 +277,16 @@ button:hover {
   color: white;
 }
 
+.taskCompleted{
+  padding: 10px 15px;
+  font-size: 0.8rem;
+  margin-top: 0; /* space above the button */
+  margin-left: 0; /* Remove margin-left if it was previously set */
+  margin-right: 0; /* Align the button to the right */
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 65px; /* Move the text up by reducing the top margin */
+}
+
 /* Animation for fadeIn effect */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }

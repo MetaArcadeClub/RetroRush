@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const walletConnectButton = document.getElementById('wallet-connect');
     if (walletConnectButton) {
         walletConnectButton.addEventListener('click', function() {
-            const auth0_id = localStorage.getItem('auth0_id');
+            const auth0_id = localStorage.getItem('userId');
             if (!auth0_id) {
                 alert('Please log in before connecting a wallet.');
                 return;
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     fetch('/store-wallet', {
                         method: 'POST',      
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ walletAddress: walletAddress, auth0_id: localStorage.getItem('auth0_id') })
+                        body: JSON.stringify({ walletAddress: walletAddress, auth0_id: localStorage.getItem('userId') })
                         })
                     .then(response => response.json())
                     .then(data => {
