@@ -1,0 +1,18 @@
+
+[qgtunnel.mongodb1]
+accept = "127.0.0.1:27017"
+connect = "ac-87gyinb-shard-00-00.flg8yii.mongodb.net:27017"
+encrypted = false
+transparent = true
+
+[qgtunnel.mongodb2]
+accept = "127.0.0.2:27017"
+connect = "ac-87gyinb-shard-00-01.flg8yii.mongodb.net:27017"
+encrypted = false
+transparent = true
+
+[qgtunnel.mongodb3]
+accept = "127.0.0.3:27017"
+connect = "ac-87gyinb-shard-00-02.flg8yii.mongodb.net:27017"
+encrypted = false
+transparent = true
